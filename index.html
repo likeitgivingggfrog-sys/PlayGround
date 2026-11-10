@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#071b26" />
+  <meta name="description" content="Volleyverse — a fast, colorful 3D-inspired volleyball game. Play, explore courts, and earn rewards." />
+  <title>Volleyverse — Beach Volleyball</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app">
+    <canvas id="court" aria-label="3D volleyball court"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Volleyverse home"><span class="brand-mark">V</span><span>VOLLEY<span class="brand-light">VERSE</span></span></a>
+      <div class="top-stats"><span class="status-pill"><i></i> SEASON 01</span><span class="coin-pill"><b class="coin-icon">✦</b><span id="coin-count">120</span></span></div>
+      <button class="icon-btn sound-btn" id="sound-toggle" aria-label="Toggle sound">♫</button>
+    </header>
+
+    <section class="screen lobby" id="lobby-screen">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> YOUR COURT. YOUR MOMENT.</p>
+        <h1>OWN THE<br/><em>COURT.</em></h1>
+        <p class="hero-sub">Sun, sand, and one more point.<br/>Your next rally starts here.</p>
+        <div class="hero-actions"><button class="primary-btn" id="play-btn"><span>PLAY NOW</span><b>↗</b></button><button class="round-play" id="quick-play" aria-label="Quick play">▶</button><span class="quick-label">QUICK<br/>MATCH</span></div>
+        <div class="daily-reward"><span class="reward-spark">✦</span><div><b>DAILY DROP</b><small id="daily-label">Your 50 coin gift is ready</small></div><button id="claim-daily">CLAIM <span>＋50</span></button></div>
+      </div>
+      <div class="lobby-right">
+        <div class="season-card"><div class="season-top"><span>SEASON 01</span><span class="season-live"><i></i> LIVE</span></div><div class="season-title">SUNSET<br/>SHOWDOWN</div><div class="season-bottom"><span>ENDS IN <b>12D 08H</b></span><span class="season-arrow">↗</span></div></div>
+        <div class="mode-card"><div class="mode-icon">⌁</div><div><b>READY TO SERVE?</b><small>Play solo or bring a friend online</small></div><button id="online-open" aria-label="Online multiplayer">↗</button></div>
+      </div>
+      <nav class="bottom-nav"><button class="nav-item active" data-tab="home"><span>⌂</span>HOME</button><button class="nav-item" data-tab="courts"><span>▤</span>COURTS</button><button class="nav-item" data-tab="locker"><span>◈</span>LOCKER</button><button class="nav-item" data-tab="rewards"><span>✦</span>REWARDS</button></nav>
+    </section>
+
+    <section class="screen setup hidden" id="setup-screen">
+      <div class="panel-head"><button class="back-btn" data-back>←</button><div><p class="eyebrow">PICK YOUR PLAYGROUND</p><h2>Choose a court</h2></div><span class="step-label">01 <i>/</i> 02</span></div>
+      <div class="map-grid" id="map-grid"></div>
+      <div class="setup-footer"><div class="setup-hint"><span>⌨</span> MOVE <b>W A S D</b><i>·</i> JUMP / HIT <b>SPACE</b></div><button class="primary-btn" id="start-match"><span>LET'S PLAY</span><b>↗</b></button></div>
+    </section>
+
+    <section class="screen online-panel hidden" id="online-panel">
+      <div class="panel-head"><button class="back-btn" data-back>←</button><div><p class="eyebrow">PLAY TOGETHER</p><h2>Online court</h2></div></div>
+      <p class="online-intro">Challenge a friend from anywhere. Create a room and share your code, or join their match.</p>
+      <div class="online-options"><article class="online-option"><div class="online-symbol">↗</div><h3>Host a match</h3><p>Open a court and invite your opponent.</p><button class="outline-btn" id="host-online">CREATE ROOM</button><div class="room-code hidden" id="room-code"><span>YOUR ROOM CODE</span><strong id="room-id">—</strong><button id="copy-room">COPY</button><small id="room-status">Waiting for a player…</small></div></article><article class="online-option"><div class="online-symbol">⌕</div><h3>Join a match</h3><p>Enter the room code from your friend.</p><div class="join-row"><input id="join-code" placeholder="ROOM CODE" maxlength="24" autocomplete="off"/><button class="outline-btn" id="join-online">JOIN</button></div><small class="connection-note" id="connection-note">Peer-to-peer connection · no account needed</small></article></div>
+      <div class="online-footnote">Online play uses a peer-to-peer connection. Both players need an internet connection.</div>
+    </section>
+
+    <section class="screen game-ui hidden" id="game-ui">
+      <div class="game-top"><button class="back-btn leave-btn" id="leave-match">×</button><div class="map-name"><span class="map-dot"></span><span id="active-map-label">GOLDEN HOUR</span></div><div class="scoreboard"><div class="score-side"><small>YOU</small><b id="you-score">0</b></div><span class="score-divider">:</span><div class="score-side"><small id="opponent-label">RIVAL</small><b id="rival-score">0</b></div></div><div class="match-set" id="match-status">FIRST TO 5</div></div>
+      <div class="game-hint" id="game-hint"><span>SPACE</span> to serve</div>
+      <div class="toast" id="game-toast"></div>
+      <div class="touch-controls" id="touch-controls"><div class="dpad"><button data-move="left">←</button><button data-move="up">↑</button><button data-move="down">↓</button><button data-move="right">→</button></div><button class="hit-btn" id="touch-hit"><span>↑</span><b>HIT</b></button></div>
+    </section>
+
+    <section class="modal hidden" id="result-modal"><div class="result-card"><div class="result-burst">✦</div><p class="eyebrow" id="result-kicker">MATCH COMPLETE</p><h2 id="result-title">POINT<br/><em>TAKEN.</em></h2><p id="result-copy">You ruled the court.</p><div class="result-reward"><span>✦</span><div><small>REWARDS EARNED</small><b id="reward-amount">+85</b></div><span>COINS</span></div><button class="primary-btn" id="continue-btn"><span>BACK TO LOBBY</span><b>↗</b></button></div></section>
+
+    <section class="toast-global" id="global-toast"></section>
+    <footer class="game-footer"><span>VOLLEYVERSE</span><span>PLAY FREE · STAY SUNNY</span><button id="download-btn">↓ DOWNLOAD GAME</button></footer>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js" defer></script>
+  <script src="game.js" defer></script>
+</body>
+</html>
